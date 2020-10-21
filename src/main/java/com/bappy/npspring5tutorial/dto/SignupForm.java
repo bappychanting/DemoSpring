@@ -1,10 +1,24 @@
 package com.bappy.npspring5tutorial.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class SignupForm {
 	
+	@NotNull
+	@Size(min=1, max=100, message="{lengthError}")
+	@Pattern(regexp="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$/", message="{emailPatternError}")
 	private String email;
+	
+	@NotNull
+	@Size(min=1, max=255, message="{lengthError}")
 	private String name;
+	
+	@NotNull
+	@Size(min=6, max=30)
 	private String password;
+	
 	public String getEmail() {
 		return email;
 	}

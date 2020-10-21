@@ -1,5 +1,5 @@
 <%@include file="layout/master.jsp" %>
-<div class="container">
-	<h1><spring:message code="hello"/></h1>
-</div>
+
+<h1><spring:message code="hello"/></h1>
+	
 <%@include file="layout/footer.jsp" %>

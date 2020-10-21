@@ -10,4 +10,16 @@
 <%@include file="styles.jsp" %>
 </head>
 <body>
+
+	<div class="container">
+	
 	<%@include file="navigation.jsp" %>
+	
+	<c:if test="${not empty flashMessage}">
+		<div class="alert alert-${flashType} alert-dismissable fade show" role="alert">
+			${flashMessage}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    			<span aria-hidden="true">&times;</span>
+  			</button>
+		</div>
+	</c:if>

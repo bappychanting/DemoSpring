@@ -5,6 +5,5 @@ import com.bappy.npspring5tutorial.entities.User;
 
 public interface UserRepository extends JpaRepository<User, Long>{
 
-	
-	
+	User findByEmail(String email);
 }

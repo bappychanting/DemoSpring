@@ -19,7 +19,7 @@ public class User {
 	private long id;
 	
 	@Column(nullable=false, length=EMAIL_MAX)
-	private String mail;
+	private String email;
 	
 	@Column(nullable=false, length=NAME_MAX)
 	private String name;
@@ -35,12 +35,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getMail() {
-		return mail;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setMail(String mail) {
-		this.mail = mail;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getName() {

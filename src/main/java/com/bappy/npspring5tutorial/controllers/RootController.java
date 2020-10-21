@@ -17,17 +17,20 @@ import javax.validation.Valid;
 import com.bappy.npspring5tutorial.NpSpring5TutorialApplication;
 import com.bappy.npspring5tutorial.dto.SignupForm;
 import com.bappy.npspring5tutorial.mail.MailSender;
+import com.bappy.npspring5tutorial.services.UserService;
 
 @Controller
 public class RootController {
 	
 	private MailSender mailSender;
+	private UserService userService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(RootController.class);
 	
 	@Autowired
-	public RootController(MailSender mailSender) {
+	public RootController(MailSender mailSender, UserService userService) {
 		this.mailSender = mailSender;
+		this.userService = userService;
 	}
 	
 //	@RequestMapping("/")
@@ -53,7 +56,7 @@ public class RootController {
 		if(result.hasErrors())
 			return "signup";
 		
-		logger.info(signupForm.toString());
+		userService.signup(signupForm);
 		
 		return "redirect:/";
 		

@@ -12,10 +12,12 @@
       <li class="nav-item">
         <a class="nav-link disabled" href="javascript:void(0);">Disabled</a>
       </li>
+      </ul>
+    <ul class="navbar-nav ml-auto">
       <sec:authorize access="isAuthenticated()">
       <li class="nav-item">
-   		 <a class="nav-link disabled" href="/users/<sec:authentication property='principle.user.id'/>">
-   		 	<sec:authentication property="principle.user.name"/>
+   		 <a class="nav-link" href="/users/<sec:authentication property='principal.user.id'/>">
+   		 	<sec:authentication property="principal.user.name"/>
    		 </a>
       </li>
       <li class="nav-item">
@@ -24,12 +26,14 @@
    		 <a class="nav-link" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit()">Logout</a>
       </li>
       </sec:authorize>
+      <sec:authorize access="isAnonymous()">
       <li class="nav-item">
       		 <a class="nav-link" href="<c:url value='/signup' />">Signup</a>
       </li>
       <li class="nav-item">
       		 <a class="nav-link" href="<c:url value='/login' />">Login</a>
       </li>
-      </ul>
+      </sec:authorize>
+    </ul>
   </div>
 </nav>

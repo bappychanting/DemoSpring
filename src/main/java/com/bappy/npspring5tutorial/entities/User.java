@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
+import com.bappy.npspring5tutorial.util.MyUtil;
+
 @Entity
 @Table(name="user", indexes = {
 		@Index(columnList = "email", unique=true),
@@ -106,6 +108,17 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public boolean isAdmin() {
+		return roles.contains(Role.ADMIN);
+	}
+	
+	public boolean isEditable() {
+		User loggedIn = MyUtil.getSessionUser();
+		if(loggedIn == null)
+			return false;
+		return loggedIn.isAdmin() || loggedIn.getId() == id;
 	}
 	
 }

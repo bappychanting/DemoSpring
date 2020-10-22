@@ -53,6 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 						"/signup",
 						"/forgot-password",
 						"/reset-password/*",
+						"/users/*",
 						"/assets/**").permitAll().anyRequest().authenticated();
 		
 		http.formLogin().loginPage("/login").permitAll().and()

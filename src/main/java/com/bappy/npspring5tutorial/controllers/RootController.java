@@ -19,10 +19,12 @@ import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import com.bappy.npspring5tutorial.NpSpring5TutorialApplication;
+import com.bappy.npspring5tutorial.dto.ForgotPasswordForm;
 import com.bappy.npspring5tutorial.dto.SignupForm;
 import com.bappy.npspring5tutorial.mail.MailSender;
 import com.bappy.npspring5tutorial.services.UserService;
 import com.bappy.npspring5tutorial.util.MyUtil;
+import com.bappy.npspring5tutorial.validators.ForgotPasswordFormValidator;
 import com.bappy.npspring5tutorial.validators.SignupFormValidator;
 
 @Controller
@@ -31,19 +33,29 @@ public class RootController {
 	private MailSender mailSender;
 	private UserService userService;
 	private SignupFormValidator signupFormValidator;
+	private ForgotPasswordFormValidator forgotPasswordFormValidator;
 	
 	private static final Logger logger = LoggerFactory.getLogger(RootController.class);
 	
 	@Autowired
-	public RootController(MailSender mailSender, UserService userService, SignupFormValidator signupFormValidator) {
+	public RootController(MailSender mailSender,  
+			UserService userService,  
+			SignupFormValidator signupFormValidator,
+			ForgotPasswordFormValidator forgotPasswordFormValidator) {
 		this.mailSender = mailSender;
 		this.userService = userService;
 		this.signupFormValidator = signupFormValidator;
+		this.forgotPasswordFormValidator = forgotPasswordFormValidator;
 	}
 	
 	@InitBinder("signupForm")
 	protected void initSignupBinder(WebDataBinder binder) {
 		binder.setValidator(signupFormValidator);
+	}
+	
+	@InitBinder("forgotPasswordForm")
+	protected void initForgotPasswordBinder(WebDataBinder binder) {
+		binder.setValidator(forgotPasswordFormValidator);
 	}
 	
 //	@RequestMapping("/")
@@ -72,6 +84,29 @@ public class RootController {
 		userService.signup(signupForm);
 		
 		MyUtil.flash(redirectAttributes, "success", "signupSuccess");
+		
+		return "redirect:/";
+		
+	}
+	
+	@RequestMapping(value = "/forgot-password", method = RequestMethod.GET)
+	public String forgotPassword(Model model) {
+		
+		model.addAttribute(new ForgotPasswordForm());
+		
+		return "forgot-password";
+	}
+	
+	@RequestMapping(value = "/forgot-password", method = RequestMethod.POST)
+	public String forgotPassword(@ModelAttribute("forgotPasswordForm") @Valid ForgotPasswordForm forgotPasswordForm,
+			BindingResult result, RedirectAttributes redirectAttributes) {
+		
+		if(result.hasErrors())
+			return "forgot-password";
+		
+		userService.forgotPassword(forgotPasswordForm);
+		
+		MyUtil.flash(redirectAttributes, "success", "checkMailResetPassword");
 		
 		return "redirect:/";
 		

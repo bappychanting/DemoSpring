@@ -4,11 +4,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.bappy.npspring5tutorial.entities.User;
+
 public class SignupForm {
 	
 	@NotNull
 	@Size(min=1, max=100, message="{lengthError}")
-	@Pattern(regexp="^(.+)@(.+)$", message="{emailPatternError}")
+	@Pattern(regexp=User.EMAIL_PATTERN, message="{emailPatternError}")
 	private String email;
 	
 	@NotNull

@@ -18,6 +18,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.transaction.annotation.Propagation;
 
 import com.bappy.npspring5tutorial.controllers.RootController;
+import com.bappy.npspring5tutorial.dto.ForgotPasswordForm;
 import com.bappy.npspring5tutorial.dto.SignupForm;
 import com.bappy.npspring5tutorial.dto.UserDetailsImpl;
 import com.bappy.npspring5tutorial.entities.User;
@@ -96,6 +97,37 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		user.getRoles().remove(Role.UNVERIFIED);
 		user.setVerificationCode(null);
 		userRepository.save(user);
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, readOnly=false)
+	public void forgotPassword(ForgotPasswordForm form) {
+		final User user = userRepository.findByEmail(form.getEmail());
+		final String forgotPasswordCode = RandomStringUtils.randomAlphanumeric(User.RANDOM_CODE_LENGTH);
+				
+		user.setForgotPasswordCode(forgotPasswordCode);
+		final User savedUser = userRepository.save(user);
+		
+		TransactionSynchronizationManager.registerSynchronization(
+				new TransactionSynchronizationAdapter() {
+					@Override
+					public void afterCommit() {
+						try {
+							mailForgotPasswordLink(savedUser);
+						} catch (MessagingException e) {
+							logger.error(ExceptionUtils.getStackTrace(e));
+						}
+					}
+				}
+				
+		);
+	}
+
+	private void mailForgotPasswordLink(User user) throws MessagingException{
+		String forgotPasswordLink = MyUtil.hostUrl() + "/reset-password/" + user.getForgotPasswordCode();
+		mailSender.send(user.getEmail(), 
+				MyUtil.getMessage("forgotPasswordSubject"), 
+				MyUtil.getMessage("forgotPasswordEmail", forgotPasswordLink));
 	}
 	
 }

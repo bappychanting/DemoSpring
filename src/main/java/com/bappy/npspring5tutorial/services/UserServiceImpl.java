@@ -23,6 +23,7 @@ import com.bappy.npspring5tutorial.dto.ForgotPasswordForm;
 import com.bappy.npspring5tutorial.dto.ResetPasswordForm;
 import com.bappy.npspring5tutorial.dto.SignupForm;
 import com.bappy.npspring5tutorial.dto.UserDetailsImpl;
+import com.bappy.npspring5tutorial.dto.UserEditForm;
 import com.bappy.npspring5tutorial.entities.User;
 import com.bappy.npspring5tutorial.entities.User.Role;
 import com.bappy.npspring5tutorial.mail.MailSender;
@@ -160,6 +161,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			user.setEmail("Confidential"); 
 		
 		return user;
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, readOnly=false)
+	public void update(long userId, UserEditForm userEditForm) {
+		
+		User loggedIn = MyUtil.getSessionUser();
+		MyUtil.validate(loggedIn.isAdmin() || loggedIn.getId() == userId, "noPermissions");
+		
+		User user = userRepository.findById(userId).orElse(null);;		
+		user.setName(userEditForm.getName());
+		if(loggedIn.isAdmin())
+			user.setRoles(userEditForm.getRoles());
+		userRepository.save(user);
 	}
 	
 }

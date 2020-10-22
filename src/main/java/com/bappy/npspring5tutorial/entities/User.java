@@ -24,6 +24,7 @@ public class User {
 	public static final int NAME_MAX = 250;
 	public static final String EMAIL_PATTERN = "^(.+)@(.+)$";
 	public static final int RANDOM_CODE_LENGTH = 16;
+	public static final int PASSWORD_MAX = 30;
 	
 	public static enum Role{
 		UNVERIFIED, BLOCKED, ADMIN

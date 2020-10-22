@@ -15,10 +15,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
+import org.springframework.validation.BindingResult;
 import org.springframework.transaction.annotation.Propagation;
 
 import com.bappy.npspring5tutorial.controllers.RootController;
 import com.bappy.npspring5tutorial.dto.ForgotPasswordForm;
+import com.bappy.npspring5tutorial.dto.ResetPasswordForm;
 import com.bappy.npspring5tutorial.dto.SignupForm;
 import com.bappy.npspring5tutorial.dto.UserDetailsImpl;
 import com.bappy.npspring5tutorial.entities.User;
@@ -128,6 +130,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		mailSender.send(user.getEmail(), 
 				MyUtil.getMessage("forgotPasswordSubject"), 
 				MyUtil.getMessage("forgotPasswordEmail", forgotPasswordLink));
+	}
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, readOnly=false)
+	public void resetPassword(String forgotPasswordCode, ResetPasswordForm resetPasswordForm, BindingResult result) {
+		User user = userRepository.findByForgotPasswordCode(forgotPasswordCode);
+		
+		if(user == null)
+			result.reject("invalidForgotPassword");
+		
+		if(result.hasErrors())
+			return;
+		
+		user.setForgotPasswordCode(null);
+		user.setPassword(passwordEncoder.encode(resetPasswordForm.getPassword().trim()));
+		userRepository.save(user);
 	}
 	
 }

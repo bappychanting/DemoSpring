@@ -11,7 +11,7 @@
 </head>
 <body>
 
-	<div class="container mb-5">
+	<div class="container">
 	
 		<%@include file="navigation.jsp" %>
 		

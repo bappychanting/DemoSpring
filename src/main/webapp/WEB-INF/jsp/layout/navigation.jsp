@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+  <a class="navbar-brand" href="javascript:void(0);">Navbar</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -12,16 +12,23 @@
       <li class="nav-item">
         <a class="nav-link disabled" href="javascript:void(0);">Disabled</a>
       </li>
+      <sec:authorize access="isAuthenticated()">
       <li class="nav-item">
-      		 <a class="nav-link" href="<c:url value='/signup' />">Signup</a>
-      </li>
-      <li class="nav-item">
-      		 <a class="nav-link" href="<c:url value='/login' />">Login</a>
+   		 <a class="nav-link disabled" href="/users/<sec:authentication property='principle.user.id'/>">
+   		 	<sec:authentication property="principle.user.name"/>
+   		 </a>
       </li>
       <li class="nav-item">
    		 <c:url var="logoutUrl" value="/logout"></c:url>
    		 <form:form id="logoutForm" action="${logoutUrl}" method="post"></form:form>
    		 <a class="nav-link" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit()">Logout</a>
+      </li>
+      </sec:authorize>
+      <li class="nav-item">
+      		 <a class="nav-link" href="<c:url value='/signup' />">Signup</a>
+      </li>
+      <li class="nav-item">
+      		 <a class="nav-link" href="<c:url value='/login' />">Login</a>
       </li>
       </ul>
   </div>

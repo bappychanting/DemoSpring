@@ -37,6 +37,7 @@ public class SignupForm {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 	@Override
 	public String toString() {
 		return "SignupForm [email=" + email + ", name=" + name + ", password=" + password + "]";

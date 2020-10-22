@@ -1,5 +1,6 @@
 <%@include file="layout/master.jsp" %>
 
+<div class="container">
 <div class="card mx-5">
       <div class="card-header font-weight-bold text-uppercase">Signup</div>
        <div class="card-body">
@@ -34,5 +35,5 @@
 </form:form>
        </div>
     </div>
-
+</div>
 <%@include file="layout/footer.jsp" %>

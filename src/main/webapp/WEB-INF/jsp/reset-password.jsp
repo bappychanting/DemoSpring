@@ -6,7 +6,9 @@
        <div class="card-body">
 	<form:form modelAttribute="resetPasswordForm" role="form" method="POST">
 	
-	<form:errors />
+	<div class="alert alert-danger">
+			<form:errors />
+       	</div>
 	
 	<div class="form-group">
 		<form:label path="password">Password</form:label>

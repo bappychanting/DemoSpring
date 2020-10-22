@@ -9,7 +9,7 @@ import com.bappy.npspring5tutorial.entities.User;
 public class SignupForm {
 	
 	@NotNull
-	@Size(min=1, max=100, message="{lengthError}")
+	@Size(min=1, max=100, message="{emailSizeError}")
 	@Pattern(regexp=User.EMAIL_PATTERN, message="{emailPatternError}")
 	private String email;
 	

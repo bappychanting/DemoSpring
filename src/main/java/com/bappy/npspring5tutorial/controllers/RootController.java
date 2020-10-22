@@ -138,7 +138,7 @@ public class RootController {
 			BindingResult result, RedirectAttributes redirectAttributes) throws ServletException{
 		
 		if(result.hasErrors())
-			return "forgot-password";
+			return "reset-password";
 		
 		userService.resetPassword(forgotPasswordCode, resetPasswordForm, result);
 		

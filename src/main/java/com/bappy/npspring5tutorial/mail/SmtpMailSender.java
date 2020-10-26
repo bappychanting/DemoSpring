@@ -17,10 +17,15 @@ public class SmtpMailSender implements MailSender{
 	
 	private JavaMailSender javaMailSender;
 	
-	public SmtpMailSender(JavaMailSender javaMailSender) {
-		this.javaMailSender = javaMailSender;
+	public SmtpMailSender(JavaMailSender javaMailSender) { 
+		this.javaMailSender = javaMailSender; 
 	}
-
+	
+	/*
+	 * public void setJavaMailSender(JavaMailSender javaMailSender) {
+	 * this.javaMailSender = javaMailSender; }
+	 */
+	 
 	@Override
 	@Async
 	public void send(String to, String subject, String body) throws MessagingException {

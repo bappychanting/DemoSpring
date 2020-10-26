@@ -8,12 +8,14 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @ComponentScan(basePackages={"com.bappy"})
 @EnableAutoConfiguration
 @EnableTransactionManagement
+@EnableAsync
 public class NpSpring5TutorialApplication {
 
 	private static final Logger logger = LoggerFactory.getLogger(NpSpring5TutorialApplication.class);
